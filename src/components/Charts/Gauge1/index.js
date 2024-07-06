@@ -11,19 +11,26 @@ const settings = {
   value: 0, // Inicializa o valor com 0
 };
 
-const ArcDesign1 = () => {
-  const [count, setCount] = useState(0);
+const ArcDesignPercents = () => {
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3003/rows');
         const data = response.data.values;
-        const count = data.length - 1; // Subtrai 1 para não contar o cabeçalho
-        setCount(count);
-      } catch (error) {
-        console.error('Erro ao buscar dados da API:', error); 
 
+        const totalCount = data.length - 1; // Subtrai 1 para não contar o cabeçalho
+        const finalizadosCount = data.slice(1).filter(row => row[27] === 'Finalizado').length;
+
+        if (totalCount > 0) {
+          const percentage = (finalizadosCount / totalCount) * 100; // Calcula a porcentagem
+          setPercentage(percentage);
+        } else {
+          setPercentage(0);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
       }
     };
 
@@ -32,17 +39,18 @@ const ArcDesign1 = () => {
 
   return (
     <StyledChartContainer>
-      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Finalizados</Typography>
+      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Certificação</Typography>
       <Gauge
         {...settings}
-        value={count} // Define o valor do Gauge como a contagem de registros
+        value={percentage} // Define o valor do Gauge como a porcentagem
         cornerRadius="10%" // borda do valor do arco
         className='gauge-chart'
         sx={(theme) => ({
           [`& .${gaugeClasses.valueText}`]: {
-            fontSize: 30,
+            fontSize: 40,
             fontWeight: 600,
-            opacity: 0.8
+            opacity: 0.8,
+            fill: '#636e72', // cor do texto
           },
           [`& .${gaugeClasses.valueArc}`]: {
             fill: '#1e90ff',
@@ -51,10 +59,10 @@ const ArcDesign1 = () => {
             fill: '#dfe4ea',
           },
         })}
-        text={({ value, valueMax }) => `${value.toLocaleString('pt-BR')}`} // Formata o texto para o padrão brasileiro
+        text={({ value, valueMax }) => `${Math.round(value)}%`} // Mostra a porcentagem
       />
     </StyledChartContainer>
   );
 }
 
-export default ArcDesign1;
+export default ArcDesignPercents;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Footer = styled.footer`
-    background-color: #ffc107;
+    background-color: #00A195;
     position: relative;
     padding: 10px 10px;
     height: auto;
@@ -15,7 +15,7 @@ export const Footer = styled.footer`
 export const Container = styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr 0.5fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1.5fr 1fr;
     gap: 5px;
 
     .sec {

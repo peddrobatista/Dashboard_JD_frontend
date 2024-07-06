@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { StyledChartContainer } from './styles';
 import { Typography } from '@mui/material';
+import { StyledChartContainer } from '../ChartBar1/styles';
 
-export default function SimpleBarChart() {
+const CustomBarChartByIncome = () => {
   const [chartData, setChartData] = useState({ xAxis: [], series: [] });
 
   useEffect(() => {
@@ -29,31 +29,30 @@ export default function SimpleBarChart() {
           headerMap[header.toLowerCase()] = index;
         });
 
-        // Índice da coluna 'Status'
-        const statusIndex = headerMap['status'];
+        // Índice da coluna 'Renda Familiar' - Ajuste conforme necessário
+        const rendaFamiliarIndex = headerMap['renda familiar'];
 
-        // Agrupar dados por Status
-        const statusCount = rows.reduce((acc, row) => {
-          const status = row[statusIndex];
-          acc[status] = (acc[status] || 0) + 1;
-          return acc;
-        }, {});
+        // Agrupar dados por Renda Familiar
+        const incomeCounts = {};
+        rows.forEach(row => {
+          const rendaFamiliar = row[rendaFamiliarIndex];
+          if (rendaFamiliar) {
+            if (!incomeCounts[rendaFamiliar]) {
+              incomeCounts[rendaFamiliar] = 0;
+            }
+            incomeCounts[rendaFamiliar]++;
+          }
+        });
 
         // Preparar dados para o gráfico
-        const xAxisData = Object.keys(statusCount);
-        const seriesData = Object.values(statusCount);
-
-        console.log('xAxisData:', xAxisData);
-        console.log('seriesData:', seriesData);
-
-        // Verificar se os dados são válidos antes de definir o estado
-        if (xAxisData.length !== seriesData.length) {
-          console.error('Os dados do eixo X e da série não correspondem em comprimento.');
-          return;
-        }
+        const xAxisData = Object.keys(incomeCounts);
+        const seriesData = Object.values(incomeCounts);
 
         // Define o estado com os dados formatados para o gráfico
-        setChartData({ xAxis: xAxisData, series: [{ data: seriesData, label: 'Cadastrados', color: '#1e90ff' }] });
+        setChartData({
+          xAxis: xAxisData.map((item, index) => ({ id: index, value: item })),
+          series: [{ data: seriesData, label: 'Renda Familiar', color: '#1e90ff' }]
+        });
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
       }
@@ -64,18 +63,17 @@ export default function SimpleBarChart() {
 
   return (
     <>
-    <Typography className='title' variant='h6' sx={{ fontWeight: 700, color: '#636e72', marginTop: '10px', textAlign: 'center' }}>Status</Typography>
+    <Typography className='title' variant='h6' sx={{ fontWeight: 700, color: '#636e72', marginTop: '10px', textAlign: 'center' }}>Distribuição por Renda Familiar</Typography>
     <StyledChartContainer>
       {chartData.xAxis.length > 0 && chartData.series.length > 0 ? (
         <BarChart
           className="bar-chart"
           borderRadius={6}
           width={800}
-          height={350}
-          xAxis={[{ scaleType: 'band', data: chartData.xAxis }]}
+          height={300}
+          xAxis={[{ scaleType: 'band', data: chartData.xAxis.map(item => item.value) }]}
           series={chartData.series}
           grid={{ vertical: true, horizontal: true }}
-
           sx={{marginBottom: '20px'}}
         />
       ) : (
@@ -84,4 +82,6 @@ export default function SimpleBarChart() {
     </StyledChartContainer>
     </>
   );
-}
+};
+
+export default CustomBarChartByIncome;

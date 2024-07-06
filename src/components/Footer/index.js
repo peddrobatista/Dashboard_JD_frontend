@@ -1,6 +1,5 @@
 import * as React from 'react';
 import logoPrefeitura from '../../images/logo_prefeitura.png';
-import logoJD from '../../images/logo-jdRosa.png';
 import logoCitinova from '../../images/citinova.png'
 import profileImg from '../../images/user_avater.jpg'
 import * as C from './styles';
@@ -44,8 +43,8 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className='sec logos jd'>
-                <img src={logoJD} alt="logo-jdRosa" width={180}/>
+            <div className='sec logos prefeitura'>
+                <img src={logoPrefeitura} alt="logo-prefeitura" width={200}/>
             </div>
             <div className='sec endereco'>
                 <h2>Fundação de Ciência, Tecnologia e Inovação de Fortaleza - Citinova</h2>   
@@ -53,9 +52,6 @@ const Footer = () => {
             </div>
             <div className='sec logos citinova'>
                 <img src={logoCitinova} alt="logo-citinova" width={200}/>
-            </div>
-            <div className='sec logos prefeitura'>
-                <img src={logoPrefeitura} alt="logo-prefeitura" width={200}/>
             </div>
         </C.Container>
     </C.Footer>

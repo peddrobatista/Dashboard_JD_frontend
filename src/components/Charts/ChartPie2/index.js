@@ -89,7 +89,7 @@ const CustomPieChart2 = () => {
                 [`& .${pieArcLabelClasses.root}`]: { // cor da legenda do preenchimento
                   fill: '#fff', // Muda a cor do texto das legendas dos arcos
                   fontWeight: 'bold',
-                  fontSize: 17
+                  fontSize: 17,
                 }, 
               }}
               width={200}

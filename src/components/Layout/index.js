@@ -3,7 +3,6 @@ import ButtonAppBar from "../AppBar";
 import { Container } from "./styles";
 import Footer from "../Footer";
 import { Button } from "@mui/material";
-import SimpleLineChart from "../Charts/ChartLines";
 import SimpleBarChart from "../Charts/ChartBar";
 import DonutChart from "../Charts/ChartDonut";
 import ChartPie from "../Charts/ChartPie";
@@ -13,6 +12,7 @@ import ArcDesign from "../Charts/Gauge";
 import Planilha from "../Planilha/index";
 import ArcDesignPercents from "../Charts/GaugePercents";
 import ArcDesign1 from "../Charts/Gauge1";
+import SimpleBarChart1 from "../Charts/ChartBar1";
 const style = {
     background: "#b600f3", 
     '&:hover': {
@@ -36,7 +36,7 @@ const Layout = () => {
                 <div className="grid-container">
                     <div className="grid-item i1">
                         <div className="gi">
-                            <SimpleLineChart/>
+                            <SimpleBarChart1/>
                         </div>
                         <div className="gi">
                             <SimpleBarChart/>
@@ -51,6 +51,9 @@ const Layout = () => {
                         </div>
                         <div class="gi">
                             <ChartPie3/>
+                        </div>
+                        <div class="gi">
+                            <DonutChart/>
                         </div>
                     </div>
                     <div className="grid-item i3">

@@ -31,7 +31,7 @@ const ArcDesign = () => {
 
   return (
     <StyledChartContainer>
-      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Total</Typography>
+      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Visão Geral</Typography>
       <Gauge
         {...settings}
         value={count} // Define o valor do Gauge como a contagem de registros
