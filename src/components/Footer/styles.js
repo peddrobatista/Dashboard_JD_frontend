@@ -15,8 +15,9 @@ export const Footer = styled.footer`
 export const Container = styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 1fr 1.5fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 5px;
+    padding: 20px 0 30px 0;
 
     .sec {
         color: #333232;
@@ -26,7 +27,7 @@ export const Container = styled.div`
         position: relative;
         font-weight: 600;
         margin-bottom: 8px;
-        font-size: 15px;
+        font-size: 17px;
     }
 
     .sec p {
@@ -68,6 +69,29 @@ export const Container = styled.div`
         text-align: justify;
         align-content: center;
     }
+    
+    .endereco .btn-black {
+        display: inline-block;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        line-height: 1.5;
+        color: #333232;
+        background-color: transparent;
+        border-color: #333232;
+        padding: 0.375rem 1.5rem;
+        font-size: .875rem;
+        font-weight: 700;
+        margin-top: 0.75rem !important;
+        text-align: center;
+        vertical-align: middle;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+    .btn-black:hover {
+        background-color: #333232;
+        color: #fff;
+    }
 
     // Configurações das logos do footer
     .logos {
@@ -82,12 +106,14 @@ export const Container = styled.div`
         display: grid;
         grid-template-columns: repeat(3,2fr);
         gap: 5px;
+        padding: none;
     }
     @media (max-width: 768px) {
         width: 100%;
         display: grid;
         grid-template-columns: repeat(1,1fr);
         gap: 20px;
+        padding: none;
 
         .profiles .container {
             display: grid;

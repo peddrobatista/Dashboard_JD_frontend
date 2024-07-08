@@ -39,7 +39,7 @@ const ArcDesignPercents = () => {
 
   return (
     <StyledChartContainer>
-      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Certificação</Typography>
+      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Finalizados</Typography>
       <Gauge
         {...settings}
         value={percentage} // Define o valor do Gauge como a porcentagem

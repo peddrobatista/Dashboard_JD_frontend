@@ -4,7 +4,6 @@ import { Container } from "./styles";
 import Footer from "../Footer";
 import { Button } from "@mui/material";
 import SimpleBarChart from "../Charts/ChartBar";
-import DonutChart from "../Charts/ChartDonut";
 import ChartPie from "../Charts/ChartPie";
 import ChartPie2 from "../Charts/ChartPie2";
 import ChartPie3 from "../Charts/ChartPie3";
@@ -51,9 +50,6 @@ const Layout = () => {
                         </div>
                         <div class="gi">
                             <ChartPie3/>
-                        </div>
-                        <div class="gi">
-                            <DonutChart/>
                         </div>
                     </div>
                     <div className="grid-item i3">
