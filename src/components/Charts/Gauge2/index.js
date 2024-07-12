@@ -11,7 +11,7 @@ const settings = {
   value: 0, // Inicializa o valor com 0
 };
 
-const ArcDesignPercents = () => {
+const ArcDesignPercents2 = () => {
   const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const ArcDesignPercents = () => {
         const totaisCount = finalizadosCount + desistenteCount + abandonoCount
 
         if (totaisCount > 0) {
-          const percentage = (finalizadosCount / totaisCount) * 100; // Calcula a porcentagem
+          const percentage = (abandonoCount / totaisCount) * 100; // Calcula a porcentagem
           setPercentage(percentage);
         } else {
           setPercentage(0);
@@ -41,7 +41,7 @@ const ArcDesignPercents = () => {
 
   return (
     <StyledChartContainer>
-      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Finalizados</Typography>
+      <Typography className='title' variant='h4' sx={{ fontWeight: 700, color: '#636e72' }}>Abandono</Typography>
       <Gauge
         {...settings}
         value={percentage} // Define o valor do Gauge como a porcentagem
@@ -67,4 +67,4 @@ const ArcDesignPercents = () => {
   );
 }
 
-export default ArcDesignPercents;
+export default ArcDesignPercents2;

@@ -7,7 +7,7 @@ export const StyledChartContainer = styled(Box)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 80%;
 
   .bar-chart {
     width: 90%;  // Ajuste a largura do gráfico para ser 90% do contêiner

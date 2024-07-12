@@ -9,7 +9,7 @@ const ButtonAppBar = () => {
   return (
     <D.Header>
       <img src={logoPrefeitura} width={178} alt='logo_prefeitura'/>
-      <D.Title>Estatísticas</D.Title>
+      <D.Title></D.Title>
     </D.Header>
      
   );

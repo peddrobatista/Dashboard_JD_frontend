@@ -10,6 +10,7 @@ export const StyledChartContainer = styled(Box)`
   width: 100%;
   height: 100%;
   text-align: center;
+  margin: auto;
 
   .gauge-chart {
     width: 90%;  // Ajuste a largura do gráfico para ser 90% do contêiner

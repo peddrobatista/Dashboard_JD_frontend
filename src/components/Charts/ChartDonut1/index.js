@@ -4,7 +4,7 @@ import axios from 'axios';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import {Stack, Typography } from '@mui/material';
 
-const DonutChart = () => {
+const DonutChart1 = () => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
@@ -24,9 +24,8 @@ const DonutChart = () => {
 
          // Filtrar e agrupar dados por escolaridade
         const statusCounts = { 
-          'Abandono': 0, 
-          'Finalizado': 0, 
-          'Desistente': 0
+          'Matriculado': 0, 
+          'Não Matriculado': 0
         };
 
         rows.forEach(row => {
@@ -37,9 +36,8 @@ const DonutChart = () => {
         });
 
         const formattedData = [
-          { id: 0, value: statusCounts['Abandono'], label: 'Abandono', color: '#f1c40f' },
-          { id: 1, value: statusCounts['Finalizado'], label: 'Finalizado', color: '#3498db' },
-          { id: 2, value: statusCounts['Desistente'], label: 'Desistente', color: '#1abc9c' },
+          { id: 0, value: statusCounts['Matriculado'], label: 'Matriculado', color: '#3498db' },
+          { id: 1, value: statusCounts['Não Matriculado'], label: 'Não Matriculado', color: '#1abc9c' },
         ];
 
         setChartData(formattedData);
@@ -50,7 +48,6 @@ const DonutChart = () => {
 
     fetchData();
   }, []);
-
   const TOTAL = chartData.map((item) => item.value).reduce((a, b) => a + b, 0);
 
   const getArcLabel = (params) => {
@@ -62,7 +59,7 @@ const DonutChart = () => {
     <Box display="flex" justifyContent="center" alignItems="center">
     <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Box flexGrow={1}>
-        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Certificação</Typography>
+        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Status</Typography>
         {chartData.length > 0 ? (
           <PieChart
             series={[
@@ -98,5 +95,5 @@ const DonutChart = () => {
   );
 }
 
-export default DonutChart;
+export default DonutChart1;
 

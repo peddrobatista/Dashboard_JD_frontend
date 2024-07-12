@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import {Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
-const DonutChart = () => {
+const CustomPieChart4 = () => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
@@ -22,24 +22,19 @@ const DonutChart = () => {
 
         const rows = data.slice(1); // Linhas da tabela
 
-         // Filtrar e agrupar dados por escolaridade
-        const statusCounts = { 
-          'Abandono': 0, 
-          'Finalizado': 0, 
-          'Desistente': 0
-        };
+        // Filtrar e agrupar dados por gênero
+        const publicCounts = { 'SIM': 0, 'NAO': 0 };
 
         rows.forEach(row => {
-          const education = row[27]; // Supondo que 'Status' está na coluna 'AB'
-          if (statusCounts[education] !== undefined) {
-            statusCounts[education]++;
+          const publicschool = row[19]; // Supondo que 'Escola Pública' está na coluna 'T'
+          if (publicschool === 'SIM' || publicschool === 'NAO') {
+            publicCounts[publicschool]++;
           }
         });
 
         const formattedData = [
-          { id: 0, value: statusCounts['Abandono'], label: 'Abandono', color: '#f1c40f' },
-          { id: 1, value: statusCounts['Finalizado'], label: 'Finalizado', color: '#3498db' },
-          { id: 2, value: statusCounts['Desistente'], label: 'Desistente', color: '#1abc9c' },
+          { id: 0, value: publicCounts['SIM'], label: 'Sim', color: '#3498db' },
+          { id: 1, value: publicCounts['NAO'], label: 'Não', color: '#7f8c8d' }
         ];
 
         setChartData(formattedData);
@@ -62,7 +57,7 @@ const DonutChart = () => {
     <Box display="flex" justifyContent="center" alignItems="center">
     <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Box flexGrow={1}>
-        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Certificação</Typography>
+        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Escola Pública?</Typography>
         {chartData.length > 0 ? (
           <PieChart
             series={[
@@ -70,15 +65,32 @@ const DonutChart = () => {
                 data: chartData,
                 arcLabel: getArcLabel,
                 highlightScope: { faded: 'global', highlighted: 'item' },
-                faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' }, 
-                innerRadius: 60,
+                faded: { innerRadius: 0, additionalRadius: -30, color: 'gray' }, 
                 outerRadius: 100,
-                cornerRadius: 2,
                 cx: 95,
                 cy: 100
               },
             ]}
-            slotProps={{legend: {hidden: true}}}
+            slotProps={{
+              legend: {
+                direction: 'row',
+                position: { 
+                  vertical: 'bottom', 
+                  horizontal: 'middle' 
+                },
+                itemMarkWidth: 20,
+                itemMarkHeight: 17,
+                markGap: 5,
+                itemGap: 10,
+                labelStyle: {
+                  fontSize: 12,
+                  fontWeight: 600,
+                  fill: '#636e72',
+                },
+                padding: 20,
+                
+              }
+            }}
             sx={{
               [`& .${pieArcLabelClasses.root}`]: { // cor da legenda do preenchimento
                 fill: '#fff',
@@ -98,5 +110,5 @@ const DonutChart = () => {
   );
 }
 
-export default DonutChart;
+export default CustomPieChart4;
 

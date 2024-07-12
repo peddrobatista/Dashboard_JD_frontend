@@ -4,6 +4,17 @@ export const Container = styled.div`
     min-height: 100vh;
     width: 100%;
 
+    .title {
+        width: 100%;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .title h2 {
+        font-size: 3rem;
+        color: #2d3436;
+    }
+
     menu ul {
         background-color: transparent;
         list-style: none;
@@ -11,7 +22,7 @@ export const Container = styled.div`
         margin: 25px auto 25px auto;
         padding: 10px;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         border-radius: 15px;
     }
@@ -22,7 +33,7 @@ export const Container = styled.div`
 
     // Configuração da grid e seus elementos
     .grid-container {
-        width: 80%;
+        width: 90%;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 25px;
@@ -33,10 +44,10 @@ export const Container = styled.div`
     }
 
     .grid-container {
-        grid-template-areas: 'i1 i1 i1 i2'
-                            'i1 i1 i1 i2'
-                            'i3 i3 i3 i2'
-                            'i4 i4 i4 i4';
+        grid-template-areas: 'i3 i3 i3  i2'
+                            'i1 i1 i1  i2'
+                            'i1 i1 i1  i2'
+                            'i4 i4 i4  i4';
     }
 
     .grid-item .gi {
@@ -50,17 +61,19 @@ export const Container = styled.div`
         grid-area: i1;
         gap: 20px;
     }
+    .i1 .gi {
+        height: 100%;
+    }
     .i2 {
         display: flex;
         grid-area: i2;
-        justify-content: center;
         flex-direction: column;
         gap: 20px;
     }
     
     .i2 .gi {
-        height: 100%;
         align-content: center;
+        padding: 10px;
     }
     
     .i3 {
@@ -84,10 +97,10 @@ export const Container = styled.div`
 
     @media (max-width: 1014px) {
         .grid-container {
-            grid-template-areas: 'i1 i1 i1 i1'
-                                'i2 i2 i2 i2'
-                                'i3 i3 i3 i3'
-                                'i4 i4 i4 i4';
+            grid-template-areas: 'i3 i3 i3  i3'
+                                'i1 i1 i1  i1'
+                                'i2 i2 i2  i2'
+                                'i4 i4 i4  i4';
         }
         
     }

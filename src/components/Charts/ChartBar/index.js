@@ -71,7 +71,7 @@ export default function SimpleBarChart() {
           className="bar-chart"
           borderRadius={6}
           width={800}
-          height={350}
+          height={300}
           xAxis={[{ scaleType: 'band', data: chartData.xAxis }]}
           series={chartData.series}
           grid={{ vertical: true, horizontal: true }}

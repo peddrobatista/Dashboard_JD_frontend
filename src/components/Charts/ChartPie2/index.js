@@ -30,9 +30,9 @@ const CustomPieChart2 = () => {
         };
 
         rows.forEach(row => {
-          const statusEdu = row[27]; // Supondo que 'Status' está na coluna 'AB'
-          if (statusCounts[statusEdu] !== undefined) {
-            statusCounts[statusEdu]++;
+          const education = row[27]; // Supondo que 'Status' está na coluna 'AB'
+          if (statusCounts[education] !== undefined) {
+            statusCounts[education]++;
           }
         });
 
