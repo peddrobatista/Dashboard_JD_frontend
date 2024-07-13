@@ -77,7 +77,7 @@ export default function HorizontalBars() {
             width={800}
             height={400}
             grid={{ vertical: true }}
-            sx={{padding: '0px 0px 40px 40px'}}
+            sx={{padding: '0px 0px 50px 50px'}}
           />
         ) : (
           <div>Carregando...</div>

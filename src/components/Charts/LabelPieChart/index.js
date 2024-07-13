@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import { Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import { styled } from '@mui/material';
 import { useDrawingArea } from '@mui/x-charts/hooks';
 
@@ -12,7 +12,7 @@ const LabelPieChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/rows');
+        const response = await axios.get('http://localhost:3003/rows');
         const data = response.data.values;
 
         console.log('Dados recebidos da API:', data);
@@ -25,18 +25,18 @@ const LabelPieChart = () => {
         const rows = data.slice(1); // Linhas da tabela
 
         // Filtrar e agrupar dados por gênero
-        const genderCounts = { 'M': 0, 'F': 0 };
+        const genderCounts = { 'Masculino': 0, 'Feminino': 0 };
 
         rows.forEach(row => {
-          const gender = row[5]; // Supondo que 'Genero' está na coluna 'F'
-          if (gender === 'M' || gender === 'F') {
+          const gender = row[3]; // Supondo que 'Genero' está na coluna 'F'
+          if (gender === 'Masculino' || gender === 'Feminino') {
             genderCounts[gender]++;
           }
         });
 
         const formattedData = [
-          { id: 0, value: genderCounts['M'], label: 'Homens', color: '#ff4757' },
-          { id: 1, value: genderCounts['F'], label: 'Mulheres', color: '#2ed573' }
+          { id: 0, value: genderCounts['Masculino'], label: 'Homens', color: '#ff4757' },
+          { id: 1, value: genderCounts['Feminino'], label: 'Mulheres', color: '#2ed573' }
         ];
 
         setChartData(formattedData);
@@ -47,6 +47,14 @@ const LabelPieChart = () => {
 
     fetchData();
   }, []);
+
+  const TOTAL = chartData.map((item) => item.value).reduce((a, b) => a + b, 0);
+
+  const getArcLabel = (params) => {
+    const percent = params.value / TOTAL;
+    return `${(percent * 100).toFixed(0)}%`;
+  };
+
   // cor do label, estilização
   const StyledText = styled('text')(({ theme }) => ({
     fill: '#636e72',
@@ -67,22 +75,18 @@ const LabelPieChart = () => {
   }
 
   return (
-    <Stack
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-      sx={{ height: '80vh', textAlign: 'center' }}
-    >
-      <Box>
-        <Typography variant='h4' sx={{fontWeight: 700, color: '#636e72'}}>Pie Chart Label</Typography>
+    <Stack textAlign="center" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Box padding='auto'>
         {chartData.length > 0 ? (
           <PieChart
             series={[
               {
                 data: chartData,
-                innerRadius: 60
+                arcLabel: getArcLabel,
+                innerRadius: 60,
               },
             ]}
+            slotProps={{ legend: { hidden: true } }}
             sx={{
               [`& .${pieArcLabelClasses.root}`]: {
                 fill: '#fff',
@@ -91,7 +95,9 @@ const LabelPieChart = () => {
             }}
             width={400}
             height={200}
-          ><PieCenterLabel>Center</PieCenterLabel></PieChart>
+          >
+            <PieCenterLabel>Status</PieCenterLabel>
+          </PieChart>
         ) : (
           <div>Carregando...</div>
         )}
@@ -101,4 +107,3 @@ const LabelPieChart = () => {
 }
 
 export default LabelPieChart;
-

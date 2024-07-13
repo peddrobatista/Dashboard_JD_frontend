@@ -14,7 +14,6 @@ import DonutChart from "../Charts/ChartDonut";
 import HorizontalBars from "../Charts/ChartBarHorizontal";
 import DonutChart1 from "../Charts/ChartDonut1";
 import ArcDesignPercents2 from "../Charts/Gauge2";
-import LabelPieChart from "../Charts/LabelPieChart";
 const style = {
     background: "#0984e3", 
     '&:hover': {
@@ -70,9 +69,6 @@ const Layout = () => {
                         </div>
                         <div class="gi">
                             <DonutChart/>
-                        </div>
-                        <div class="gi">
-                            <ChartPie/>
                         </div>
                         <div class="gi">
                             <ChartPie/>
