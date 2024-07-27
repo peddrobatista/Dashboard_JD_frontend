@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import { Stack, Typography } from '@mui/material';
+import {Stack, Typography, CircularProgress, Alert } from '@mui/material';
 
-const CustomPieChart = () => {
+const DonutChart1 = () => {
   const [chartData, setChartData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,35 +17,40 @@ const CustomPieChart = () => {
 
         if (data.length < 2) {
           console.error('Dados insuficientes para exibir o gráfico.');
+          setLoading(false);
           return;
         }
 
         const rows = data.slice(1); // Linhas da tabela
 
-        // Filtrar e agrupar dados por gênero
-        const genderCounts = { 'Masculino': 0, 'Feminino': 0 };
+         // Filtrar e agrupar dados por escolaridade
+        const statusCounts = { 
+          'Matriculado': 0, 
+          'Não Matriculado': 0
+        };
 
         rows.forEach(row => {
-          const gender = row[3]; // Supondo que 'Genero' está na coluna 'F'
-          if (gender === 'Masculino' || gender === 'Feminino') {
-            genderCounts[gender]++;
+          const education = row[27]; // Supondo que 'Status' está na coluna 'AB'
+          if (statusCounts[education] !== undefined) {
+            statusCounts[education]++;
           }
         });
 
         const formattedData = [
-          { id: 0, value: genderCounts['Masculino'], label: 'Homens', color: '#ff4757' },
-          { id: 1, value: genderCounts['Feminino'], label: 'Mulheres', color: '#2ed573' }
+          { id: 0, value: statusCounts['Matriculado'], label: 'Matriculado', color: '#3498db' },
+          { id: 1, value: statusCounts['Não Matriculado'], label: 'Não Matriculado', color: '#1abc9c' },
         ];
 
         setChartData(formattedData);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
   const TOTAL = chartData.map((item) => item.value).reduce((a, b) => a + b, 0);
 
   const getArcLabel = (params) => {
@@ -57,40 +62,25 @@ const CustomPieChart = () => {
     <Box display="flex" justifyContent="center" alignItems="center">
     <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Box flexGrow={1}>
-        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Gênero</Typography>
-        {chartData.length > 0 ? (
+        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Status</Typography>
+        {loading ? (
+            <CircularProgress />
+          ) : chartData.length > 0 ? (
           <PieChart
             series={[
               {
                 data: chartData,
                 arcLabel: getArcLabel,
                 highlightScope: { faded: 'global', highlighted: 'item' },
-                faded: { innerRadius: 0, additionalRadius: -30, color: 'gray' }, 
+                faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' }, 
+                innerRadius: 60,
                 outerRadius: 100,
+                cornerRadius: 2,
                 cx: 95,
                 cy: 100
               },
             ]}
-            slotProps={{
-              legend: {
-                direction: 'row',
-                position: { 
-                  vertical: 'bottom', 
-                  horizontal: 'middle' 
-                },
-                itemMarkWidth: 20,
-                itemMarkHeight: 17,
-                markGap: 5,
-                itemGap: 10,
-                labelStyle: {
-                  fontSize: 12,
-                  fontWeight: 600,
-                  fill: '#636e72',
-                },
-                padding: 20,
-                
-              }
-            }}
+            slotProps={{legend: {hidden: true}}}
             sx={{
               [`& .${pieArcLabelClasses.root}`]: { // cor da legenda do preenchimento
                 fill: '#fff',
@@ -102,7 +92,9 @@ const CustomPieChart = () => {
             height={260}
           />
         ) : (
-          <div>Carregando...</div>
+          <Alert severity='error'>
+            Não há dados suficientes para exibir o gráfico
+          </Alert>
         )}
       </Box>
     </Stack>
@@ -110,5 +102,5 @@ const CustomPieChart = () => {
   );
 }
 
-export default CustomPieChart;
+export default DonutChart1;
 

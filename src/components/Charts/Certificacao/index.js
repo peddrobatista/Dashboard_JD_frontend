@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, CircularProgress, Alert } from '@mui/material';
 
-const CustomPieChart2 = () => {
+const DonutChart = () => {
   const [chartData, setChartData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +18,7 @@ const CustomPieChart2 = () => {
 
         if (data.length < 2) {
           console.error('Dados insuficientes para exibir o gráfico.');
+          setLoading(false);
           return;
         }
 
@@ -43,8 +45,10 @@ const CustomPieChart2 = () => {
         ];
 
         setChartData(formattedData);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
+        setLoading(false);
       }
     };
 
@@ -63,34 +67,38 @@ const CustomPieChart2 = () => {
       <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Box flexGrow={1}>
           <Typography variant='h6' sx={{ fontWeight: 700, color: '#636e72' }}>Certificação</Typography>
-          {chartData.length > 0 ? (
+          {loading ? (
+            <CircularProgress />
+          ) : chartData.length > 0 ? (
             <PieChart
               series={[
                 {
                   data: chartData,
                   arcLabel: getArcLabel,
                   highlightScope: { faded: 'global', highlighted: 'item' },
-                  faded: { innerRadius: 0, additionalRadius: -30, color: 'gray' }, 
+                  faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' }, 
+                  innerRadius: 60,
                   outerRadius: 100,
+                  cornerRadius: 2,
                   cx: 95,
                   cy: 100
                 },
               ]}
-              slotProps={{
-                legend: { hidden: true }
-              }}
+              slotProps={{ legend: { hidden: true } }}
               sx={{
                 [`& .${pieArcLabelClasses.root}`]: { // cor da legenda do preenchimento
-                  fill: '#fff', // Muda a cor do texto das legendas dos arcos
+                  fill: '#fff',
                   fontWeight: 'bold',
-                  fontSize: 17,
+                  fontSize: 17
                 }, 
               }}
               width={200}
               height={260}
             />
           ) : (
-            <div>Carregando...</div>
+            <Alert severity='error'>
+              Não há dados suficientes para exibir o gráfico
+            </Alert>
           )}
         </Box>
       </Stack>
@@ -98,4 +106,4 @@ const CustomPieChart2 = () => {
   );
 }
 
-export default CustomPieChart2;
+export default DonutChart;

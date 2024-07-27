@@ -1,13 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { Typography } from '@mui/material';
+import { Typography, Box, LinearProgress, styled, linearProgressClasses, Alert } from '@mui/material';
 import { StyledChartContainer } from '../ChartBar1/styles';
+
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 15, // Aumentar a altura da barra
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+  },
+}));
 
 const CustomBarChartByIncome = () => {
   const [chartData, setChartData] = useState({ xAxis: [], series: [] });
+  const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
+
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3003/rows');
@@ -17,6 +41,8 @@ const CustomBarChartByIncome = () => {
 
         if (data.length < 2) {
           console.error('Dados insuficientes para exibir o gráfico.');
+          setLoading(false);
+          clearInterval(timer);
           return;
         }
 
@@ -53,33 +79,47 @@ const CustomBarChartByIncome = () => {
           xAxis: xAxisData.map((item, index) => ({ id: index, value: item })),
           series: [{ data: seriesData, label: 'Renda Familiar', color: '#1e90ff' }]
         });
+        setLoading(false);
+        clearInterval(timer);
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
+        setLoading(false);
+        clearInterval(timer);
       }
     };
 
     fetchData();
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   return (
     <>
-    <Typography className='title' variant='h6' sx={{ fontWeight: 700, color: '#636e72', marginTop: '10px', textAlign: 'center' }}>Distribuição por Renda Familiar</Typography>
-    <StyledChartContainer>
-      {chartData.xAxis.length > 0 && chartData.series.length > 0 ? (
-        <BarChart
-          className="bar-chart"
-          borderRadius={6}
-          width={800}
-          height={300}
-          xAxis={[{ scaleType: 'band', data: chartData.xAxis.map(item => item.value) }]}
-          series={chartData.series}
-          grid={{ vertical: true, horizontal: true }}
-          sx={{marginBottom: '20px'}}
-        />
-      ) : (
-        <div>Carregando...</div>
-      )}
-    </StyledChartContainer>
+      <Typography className='title' variant='h6' sx={{ fontWeight: 700, color: '#636e72', marginTop: '10px', textAlign: 'center' }}>
+        Distribuição por Renda Familiar
+      </Typography>
+      <StyledChartContainer>
+        {loading ? (
+          <Box sx={{ width: '100%' }}>
+            <BorderLinearProgress variant="determinate" value={progress} />
+          </Box>
+        ) : chartData.xAxis.length > 0 && chartData.series.length > 0 ? (
+          <BarChart
+            className="bar-chart"
+            borderRadius={6}
+            width={800}
+            height={300}
+            xAxis={[{ scaleType: 'band', data: chartData.xAxis.map(item => item.value) }]}
+            series={chartData.series}
+            grid={{ vertical: true, horizontal: true }}
+            sx={{marginBottom: '20px'}}
+          />
+        ) : (
+          <Alert severity='error'>Dados insuficientes para exibir o gráfico</Alert>
+        )}
+      </StyledChartContainer>
     </>
   );
 };

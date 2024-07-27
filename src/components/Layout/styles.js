@@ -1,4 +1,6 @@
 import styled from "styled-components";
+
+
 // definindo e exportando o componente estilizado
 export const Container = styled.div`
     min-height: 100vh;
@@ -51,7 +53,7 @@ export const Container = styled.div`
     }
 
     .grid-item .gi {
-        background: /*#f1f2f6*/ #fff;
+        background-color: #fff;
         border-radius: 8px;
     }
     

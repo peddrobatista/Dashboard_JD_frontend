@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, CircularProgress, Alert } from '@mui/material';
 
-const CustomPieChart3 = () => {
+const CustomPieChart = () => {
   const [chartData, setChartData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,29 +17,32 @@ const CustomPieChart3 = () => {
 
         if (data.length < 2) {
           console.error('Dados insuficientes para exibir o gráfico.');
+          setLoading(false);
           return;
         }
 
         const rows = data.slice(1); // Linhas da tabela
 
         // Filtrar e agrupar dados por gênero
-        const publicCounts = { 'SIM': 0, 'NAO': 0 };
+        const genderCounts = { 'Masculino': 0, 'Feminino': 0 };
 
         rows.forEach(row => {
-          const publicschool = row[19]; // Supondo que 'Escola Pública' está na coluna 'T'
-          if (publicschool === 'SIM' || publicschool === 'NAO') {
-            publicCounts[publicschool]++;
+          const gender = row[3]; // Supondo que 'Genero' está na coluna 'F'
+          if (gender === 'Masculino' || gender === 'Feminino') {
+            genderCounts[gender]++;
           }
         });
 
         const formattedData = [
-          { id: 0, value: publicCounts['SIM'], label: 'Sim', color: '#3498db' },
-          { id: 1, value: publicCounts['NAO'], label: 'Não', color: '#7f8c8d' }
+          { id: 0, value: genderCounts['Masculino'], label: 'Homens', color: '#ff4757' },
+          { id: 1, value: genderCounts['Feminino'], label: 'Mulheres', color: '#2ed573' }
         ];
 
         setChartData(formattedData);
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
+        setLoading(false);
       }
     };
 
@@ -57,8 +60,10 @@ const CustomPieChart3 = () => {
     <Box display="flex" justifyContent="center" alignItems="center">
     <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Box flexGrow={1}>
-        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Escola Pública?</Typography>
-        {chartData.length > 0 ? (
+        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Gênero</Typography>
+        {loading ? (
+            <CircularProgress />
+          ) : chartData.length > 0 ? (
           <PieChart
             series={[
               {
@@ -102,7 +107,10 @@ const CustomPieChart3 = () => {
             height={260}
           />
         ) : (
-          <div>Carregando...</div>
+          //<div>Não há dados suficientes para exibir o gráfico.</div>
+          <Alert severity='error'>
+            Não há dados suficientes para exibir o gráfico
+          </Alert>
         )}
       </Box>
     </Stack>
@@ -110,5 +118,5 @@ const CustomPieChart3 = () => {
   );
 }
 
-export default CustomPieChart3;
+export default CustomPieChart;
 

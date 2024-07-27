@@ -13,7 +13,8 @@ import SimpleBarChart1 from "../Charts/ChartBar1";
 import DonutChart from "../Charts/ChartDonut";
 import HorizontalBars from "../Charts/ChartBarHorizontal";
 import DonutChart1 from "../Charts/ChartDonut1";
-import ArcDesignPercents2 from "../Charts/Gauge2";
+import ArcDesignPercents2 from "../Charts/Gauge2"; 
+import BackToTopButton from "../ButtonTop/BacktoTop";
 const style = {
     background: "#0984e3", 
     '&:hover': {
@@ -27,7 +28,7 @@ const Layout = () => {
     return (
         <>
             <ButtonAppBar/>
-            <Container>
+            <Container >
                 <div className="title">
                     <h2>Estatísticas</h2>
                 </div>
@@ -81,6 +82,7 @@ const Layout = () => {
                     </div>
                 </div>
             </Container>
+            <BackToTopButton/>
             <Footer/>
         </>   
     );
