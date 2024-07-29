@@ -4,17 +4,18 @@ import { Container } from "./styles";
 import Footer from "../Footer";
 import { Button } from "@mui/material";
 import SimpleBarChart from "../Charts/ChartBar";
-import ChartPie from "../Charts/ChartPie";
-import ChartPie3 from "../Charts/ChartPie3";
 import ArcDesign from "../Charts/Gauge";
 import Planilha from "../Planilha/index";
 import ArcDesign1 from "../Charts/Gauge1";
-import SimpleBarChart1 from "../Charts/ChartBar1";
-import DonutChart from "../Charts/ChartDonut";
+import SimpleBarChart1 from "../Charts/ChartBar1"
 import HorizontalBars from "../Charts/ChartBarHorizontal";
-import DonutChart1 from "../Charts/ChartDonut1";
 import ArcDesignPercents2 from "../Charts/Gauge2"; 
 import BackToTopButton from "../ButtonTop/BacktoTop";
+import CustomPieChart3 from "../Charts/EscolaPublica";
+import DonutChart from "../Charts/Certificacao";
+import DonutChart1 from "../Charts/Status";
+import CustomPieChart from "../Charts/Genero";
+import SimpleLineChart from "../Charts/ChartLines";
 const style = {
     background: "#0984e3", 
     '&:hover': {
@@ -28,7 +29,7 @@ const Layout = () => {
     return (
         <>
             <ButtonAppBar/>
-            <Container >
+            <Container>
                 <div className="title">
                     <h2>Estatísticas</h2>
                 </div>
@@ -40,17 +41,20 @@ const Layout = () => {
                 </menu>
                 <div className="grid-container">
                     <div className="grid-item i3">
-                        <div class="gi">
+                        <div className="gi">
                             <ArcDesign/>
                         </div>
-                        <div class="gi">
+                        <div className="gi">
                             <ArcDesign1/>
                         </div>
-                        <div class="gi">
+                        <div className="gi">
                             <ArcDesignPercents2/>
                         </div>
                     </div>
                     <div className="grid-item i1">
+                    <div className="gi">
+                            <SimpleLineChart/>
+                        </div>
                         <div className="gi">
                             <SimpleBarChart1/>
                         </div>
@@ -62,21 +66,21 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="grid-item i2">
-                        <div class="gi">
-                            <ChartPie3/>
+                        <div className="gi">
+                            <CustomPieChart3/>
                         </div>
-                        <div class="gi">
+                        <div className="gi">
                             <DonutChart1/>
                         </div>
-                        <div class="gi">
+                        <div className="gi">
                             <DonutChart/>
                         </div>
-                        <div class="gi">
-                            <ChartPie/>
+                        <div className="gi">
+                            <CustomPieChart/>
                         </div>
                     </div>
                     <div className="grid-item i4">
-                        <div class="gi">
+                        <div className="gi">
                             <Planilha/>
                         </div>
                     </div>

@@ -57,66 +57,68 @@ const CustomPieChart3 = () => {
     return `${(percent * 100).toFixed(0)}%`;
   };
 
+  const legendLabelStyle = {
+    fontSize: 12,
+    fontWeight: 600,
+    fill: '#636e72',
+  };
+
+  const arcLabelStyle = {
+    fill: '#fff',
+    fontWeight: 'bold',
+    fontSize: 17,
+  };
+
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-    <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Box flexGrow={1}>
-        <Typography variant='h6' sx={{fontWeight: 700, color: '#636e72'}}>Escola Pública?</Typography>
-        {loading ? (
+      <Stack direction="row" textAlign="center" spacing={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box flexGrow={1}>
+          <Typography variant='h6' sx={{ fontWeight: 700, color: '#636e72' }}>Escola Pública?</Typography>
+          {loading ? (
             <CircularProgress />
           ) : chartData.length > 0 ? (
-          <PieChart
-            series={[
-              {
-                data: chartData,
-                arcLabel: getArcLabel,
-                highlightScope: { faded: 'global', highlighted: 'item' },
-                faded: { innerRadius: 0, additionalRadius: -30, color: 'gray' }, 
-                outerRadius: 100,
-                cx: 95,
-                cy: 100
-              },
-            ]}
-            slotProps={{
-              legend: {
-                direction: 'row',
-                position: { 
-                  vertical: 'bottom', 
-                  horizontal: 'middle' 
+            <PieChart
+              series={[
+                {
+                  data: chartData,
+                  arcLabel: getArcLabel,
+                  highlightScope: { faded: 'global', highlighted: 'item' },
+                  faded: { innerRadius: 0, additionalRadius: -30, color: 'gray' }, 
+                  outerRadius: 100,
+                  cx: 95,
+                  cy: 100
                 },
-                itemMarkWidth: 20,
-                itemMarkHeight: 17,
-                markGap: 5,
-                itemGap: 10,
-                labelStyle: {
-                  fontSize: 12,
-                  fontWeight: 600,
-                  fill: '#636e72',
-                },
-                padding: 20,
-                
-              }
-            }}
-            sx={{
-              [`& .${pieArcLabelClasses.root}`]: { // cor da legenda do preenchimento
-                fill: '#fff',
-                fontWeight: 'bold',
-                fontSize: 17
-              }, 
-            }}
-            width={200}
-            height={260}
-          />
-        ) : (
-          <Alert severity='error'>
-            Não há dados suficientes para exibir o gráfico
-          </Alert>
-        )}
-      </Box>
-    </Stack>
+              ]}
+              slotProps={{
+                legend: {
+                  direction: 'row',
+                  position: { 
+                    vertical: 'bottom', 
+                    horizontal: 'middle' 
+                  },
+                  itemMarkWidth: 20,
+                  itemMarkHeight: 17,
+                  markGap: 5,
+                  itemGap: 10,
+                  labelStyle: legendLabelStyle,
+                  padding: 20,
+                }
+              }}
+              sx={{
+                [`& .${pieArcLabelClasses.root}`]: arcLabelStyle,
+              }}
+              width={200}
+              height={260}
+            />
+          ) : (
+            <Alert severity='error'>
+              Não há dados suficientes para exibir o gráfico
+            </Alert>
+          )}
+        </Box>
+      </Stack>
     </Box>
   );
 }
 
 export default CustomPieChart3;
-
