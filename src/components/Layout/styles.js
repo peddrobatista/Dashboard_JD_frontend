@@ -78,6 +78,11 @@ export const Container = styled.div`
         padding: 10px;
     }
     
+    .i2 .insights {
+        background-color: transparent;
+        padding: 0px;
+    }
+    
     .i3 {
         display: flex;
         justify-content: center;

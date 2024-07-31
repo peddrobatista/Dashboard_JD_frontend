@@ -6,7 +6,7 @@ import { StyledChartContainer } from './styles';
 import dayjs from 'dayjs';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 15, // Aumentar a altura da barra
+  height: 15,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
@@ -17,7 +17,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-export default function SimpleLineChart() {
+export default function SimpleLineChart({ setInsightData, setTaxaData }) {
   const [chartData, setChartData] = useState({ xAxis: [], series: [] });
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -38,42 +38,34 @@ export default function SimpleLineChart() {
         const response = await axios.get('http://localhost:3003/rows');
         const data = response.data.values;
 
-        console.log('Dados recebidos da API:', data);
-
         if (data.length < 2) {
-          console.error('Dados insuficientes para exibir o gráfico.');
           setLoading(false);
           clearInterval(timer);
           return;
         }
 
-        const rows = data.slice(1); // Linhas da tabela
+        const rows = data.slice(1);
 
-        // Mapear os índices dos cabeçalhos para facilitar o acesso aos dados
-        const headers = data[0]; // Cabeçalhos da tabela
+        const headers = data[0];
         const headerMap = {};
         headers.forEach((header, index) => {
           headerMap[header.toLowerCase()] = index;
         });
 
-        // Índice da coluna 'created_at'
-        const createdAtIndex = headerMap['created_at']; // Índice da coluna 'created_at'
+        const createdAtIndex = headerMap['created_at'];
 
-        // Agrupar dados por bimestre e ano
         const bimesters = {};
-
         rows.forEach(row => {
           const createdAt = row[createdAtIndex];
           const date = dayjs(createdAt);
           const year = date.year();
-          const month = date.month() + 1; // dayjs usa 0-index para meses
+          const month = date.month() + 1;
 
-          // Filtrar anos fora do intervalo de 2021 a 2024
           if (year < 2021 || year > 2024) {
             return;
           }
 
-          const bimester = Math.ceil(month / 2); // Calcular bimestre
+          const bimester = Math.ceil(month / 2);
           const key = `${year}-B${bimester}`;
 
           if (!bimesters[key]) {
@@ -82,32 +74,39 @@ export default function SimpleLineChart() {
           bimesters[key]++;
         });
 
-        // Preparar dados para o gráfico
         const xAxisData = Object.keys(bimesters).sort((a, b) => {
           const [yearA, bimesterA] = a.split('-B').map(Number);
           const [yearB, bimesterB] = b.split('-B').map(Number);
 
           if (yearA !== yearB) {
-            return yearB - yearA; // Ordenar por ano, do maior para o menor
+            return yearB - yearA;
           }
-          return bimesterB - bimesterA; // Ordenar por bimestre, do maior para o menor
-        }).reverse(); // Reverter para a ordem correta
+          return bimesterB - bimesterA;
+        }).reverse();
 
         const seriesData = xAxisData.map(key => bimesters[key]);
 
-        console.log('xAxisData:', xAxisData);
-        console.log('seriesData:', seriesData);
+        let difference = 0;
+        let isPositive = true;
+        let taxa = 0;
 
-        // Verificar se os dados são válidos antes de definir o estado
-        if (xAxisData.length !== seriesData.length) {
-          console.error('Os dados do eixo X e da série não correspondem em comprimento.');
-          setLoading(false);
-          clearInterval(timer);
-          return;
+        const currentBimesterKey = '2024-B3'; // 3º bimestre de 2024
+        const previousBimesterKey = '2023-B3'; // 3º bimestre de 2023
+
+        if (bimesters[previousBimesterKey] !== undefined && bimesters[currentBimesterKey] !== undefined) {
+          const currentBimester = bimesters[currentBimesterKey];
+          const previousBimester = bimesters[previousBimesterKey];
+
+          difference = currentBimester - previousBimester;
+          isPositive = difference >= 0;
+          taxa = ((currentBimester - previousBimester) / previousBimester) * 100;
+        } else {
+          console.warn('Dados do 3º bimestre de 2023 ou do 3º bimestre de 2024 estão ausentes.');
         }
 
-        // Define o estado com os dados formatados para o gráfico
         setChartData({ xAxis: xAxisData, series: [{ data: seriesData, label: 'Cadastros Criados', color: '#1e90ff' }] });
+        setInsightData({ difference: Math.abs(difference), isPositive });
+        setTaxaData({ taxa: Math.abs(taxa), isPositive });
         setLoading(false);
         clearInterval(timer);
       } catch (error) {
@@ -122,7 +121,7 @@ export default function SimpleLineChart() {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [setInsightData, setTaxaData]);
 
   return (
     <>

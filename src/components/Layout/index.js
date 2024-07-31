@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ButtonAppBar from "../AppBar";
 import { Container } from "./styles";
 import Footer from "../Footer";
@@ -16,6 +16,8 @@ import DonutChart from "../Charts/Certificacao";
 import DonutChart1 from "../Charts/Status";
 import CustomPieChart from "../Charts/Genero";
 import SimpleLineChart from "../Charts/ChartLines";
+import InsightCadCriads from "../Insights/CadCriados";
+import TaxaCadCriados from "../Insights/TaxaCadCriados";
 const style = {
     background: "#0984e3", 
     '&:hover': {
@@ -26,6 +28,8 @@ const style = {
 }
 
 const Layout = () => {
+    const [insightData, setInsightData] = useState({ difference: 0, isPositive: true });
+    const [taxaData, setTaxaData] = useState({ taxa: 0, isPositive: true });
     return (
         <>
             <ButtonAppBar/>
@@ -53,7 +57,7 @@ const Layout = () => {
                     </div>
                     <div className="grid-item i1">
                     <div className="gi">
-                            <SimpleLineChart/>
+                            <SimpleLineChart setInsightData={setInsightData} setTaxaData={setTaxaData}/>
                         </div>
                         <div className="gi">
                             <SimpleBarChart1/>
@@ -77,6 +81,12 @@ const Layout = () => {
                         </div>
                         <div className="gi">
                             <CustomPieChart/>
+                        </div>
+                        <div className="gi insights">
+                            <InsightCadCriads insightData={insightData}/>
+                        </div>
+                        <div className="gi insights">
+                            <TaxaCadCriados taxaData={taxaData}/>
                         </div>
                     </div>
                     <div className="grid-item i4">
