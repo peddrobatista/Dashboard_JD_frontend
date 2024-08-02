@@ -95,10 +95,11 @@ export const Container = styled.div`
     }
     .i4 {
         grid-area: i4;
-        gap: 20px;
     }
-    .i4 .gi {
-        padding: 10px;
+    
+    .i4 .planilha {
+        padding: 0;
+        background-color: transparent;
     }
     // Configurações de responsividade
 

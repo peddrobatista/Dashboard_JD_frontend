@@ -56,7 +56,7 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="grid-item i1">
-                    <div className="gi">
+                        <div className="gi">
                             <SimpleLineChart setInsightData={setInsightData} setTaxaData={setTaxaData}/>
                         </div>
                         <div className="gi">
@@ -90,7 +90,7 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="grid-item i4">
-                        <div className="gi">
+                        <div className="gi planilha">
                             <Planilha/>
                         </div>
                     </div>

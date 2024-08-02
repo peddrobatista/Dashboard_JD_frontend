@@ -152,7 +152,7 @@ const Planilha = () => {
 
   return (
     <Paper sx={{
-      width: '96%',
+      width: '100%',
       margin: '20px auto',
       borderRadius: '10px',
       height: 700,

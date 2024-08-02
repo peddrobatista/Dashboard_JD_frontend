@@ -130,7 +130,7 @@ export default function SimpleLineChart({ setInsightData, setTaxaData }) {
       </Typography>
       <StyledChartContainer>
         {loading ? (
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: '70%', marginBottom: '60px' }} >
             <BorderLinearProgress variant="determinate" value={progress} />
           </Box>
         ) : chartData.xAxis.length > 0 && chartData.series.length > 0 ? (
