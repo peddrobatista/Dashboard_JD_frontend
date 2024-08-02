@@ -115,7 +115,7 @@ const Planilha = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/rows');
+        const response = await axios.get('https://api-dashboard-pied.vercel.app/rows');
         const data = response.data.values;
         
         if (data.length < 2) {

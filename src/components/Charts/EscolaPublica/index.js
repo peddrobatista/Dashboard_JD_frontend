@@ -11,7 +11,7 @@ const CustomPieChart3 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/rows');
+        const response = await axios.get('https://api-dashboard-pied.vercel.app/rows');
         const data = response.data.values;
 
         console.log('Dados recebidos da API:', data);
